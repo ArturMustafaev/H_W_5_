@@ -16,4 +16,15 @@ class Movie(models.Model):
 
 class Review(models.Model):
     text = models.TextField()
+    stars = models.IntegerField(default=1)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    @property
+    def rating(self):
+        total_amout = self.reviews.all().count()
+        if total_amout == 0:
+            return 0
+        sum_ = 0
+        for i in self.reviews.all():
+            sum_ += i.stars
+        return sum_ / total_amout

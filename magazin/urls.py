@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from main import views
+# from main import views
 from movie_app import views
 
 urlpatterns = [
@@ -24,4 +24,8 @@ urlpatterns = [
     path('api/v1/directors/', views.director),
     path('api/v1/movies/', views.movie),
     path('api/v1/reviews/', views.review),
+    path('api/v1/movies/reviews/', views.review_list_view),
+    path('api/v1/directors/', views.director_list),
+    # path('api/v1/products', views.product_list_view),
+    # path('api/v1/product/<int:id>/', views.product_item_view),
 ]
