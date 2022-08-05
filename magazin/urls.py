@@ -15,17 +15,34 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-# from main import views
-from movie_app import views
+from main import views
+from profile_app import views as user_views
+from movie_app import views as movie_views
+from . import swagger
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('api/v1/test/', views.test_view),
-    path('api/v1/directors/', views.director),
-    path('api/v1/movies/', views.movie),
-    path('api/v1/reviews/', views.review),
-    path('api/v1/movies/reviews/', views.review_list_view),
-    path('api/v1/directors/', views.director_list),
-    # path('api/v1/products', views.product_list_view),
-    # path('api/v1/product/<int:id>/', views.product_item_view),
+    path('api/v1/test/', views.test_view),
+    path('api/v1/categories/', views.CategoryListAPIView.as_view()),
+    path('api/v1/categories/<int:id>', views.CategoryItemUpdateDeleteAPIView.as_view()),
+    path('api/v1/categories/', views.CategoryAPIViewSet.as_view({
+        'get': 'list', 'post': 'create'
+    })),
+    path('api/v1/directors/', movie_views.director),
+    path('api/v1/movies', movie_views.MovieAPIViewSet.as_view({
+        'get': 'list', 'post': 'create'
+    })),
+    path('api/v1/reviews', movie_views.ReviewAPIViewSet.as_view({
+            'get': 'list', 'post': 'create'
+    })),
+    path('api/v1/movies/reviews', movie_views.review_list_view),
+    path('api/v1/directors', movie_views.DirectorAPIViewSet.as_view({
+            'get': 'list', 'post': 'create'
+    })),
+    path('api/v1/products/', views.product_list_view),
+    path('api/v1/product/<int:id>/', views.product_item_view),
+    path('api/v1/authorization/', user_views.authorization),
+    path('api/v1/registratuion/', user_views.registration),
 ]
+
+urlpatterns += swagger.urlpatterns
