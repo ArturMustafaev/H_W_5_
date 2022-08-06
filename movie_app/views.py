@@ -27,17 +27,17 @@ class DirectorAPIViewSet(ModelViewSet):
     pagination_class = PageNumberPagination
 
 
-# @api_view(['GET', 'POST'])
-# def movie_list(request):
-#     if request.method == 'GET':
-#         movie = Movie.objects.all()
-#         data = MovieSerializer(movie, many=True).data
-#         return Response(data=data)
-#     elif request.method == 'POST':
-#         serializer = MovieSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#         return Response()
+@api_view(['GET', 'POST'])
+def movie_list(request):
+    if request.method == 'GET':
+        movie = Movie.objects.all()
+        data = MovieSerializer(movie, many=True).data
+        return Response(data=data)
+    elif request.method == 'POST':
+        serializer = MovieSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response()
 
 
 class MovieAPIViewSet(ModelViewSet):
@@ -53,15 +53,10 @@ def review(request):
         data = ReviewSerializer(review, many=True).data
         return Response(data=data)
     elif request.method == 'POST':
-        text = request.data.get('text')
-        stars = request.method.get('stars')
-        movie = request.method.get('movie')
-        review = Review.objects.create(
-            text=text,
-            stars=stars,
-            movie=movie
-        )
-        return Response(data=ReviewSerializer(review).data)
+        serializer = ReviewSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response()
 
 
 
@@ -72,15 +67,10 @@ def review_list_view(request):
         data = ReviewSerializer(review, many=True).data
         return Response(data=data)
     elif request.method == 'POST':
-        text = request.data.get('text')
-        stars = request.method.get('stars')
-        movie = request.method.get('movie')
-        review = Review.objects.create(
-            text=text,
-            stars=stars,
-            movie=movie
-        )
-        return Response(data=ReviewSerializer(review).data)
+        serializer = ReviewSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response()
 
 
 class ReviewAPIViewSet(ModelViewSet):
